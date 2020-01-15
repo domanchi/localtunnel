@@ -74,7 +74,8 @@ if (typeof argv.port !== 'number') {
     local_ca: argv.localCa,
     allow_invalid_cert: argv.allowInvalidCert,
   }).catch(err => {
-    throw err;
+    console.error(err.message);
+    process.exit(1);
   });
 
   tunnel.on('error', err => {
