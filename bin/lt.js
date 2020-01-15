@@ -30,6 +30,7 @@ const { argv } = yargs
   .option('local-https', {
     describe: 'Tunnel traffic to a local HTTPS server',
   })
+  .boolean('local-https')
   .option('local-cert', {
     describe: 'Path to certificate PEM file for local HTTPS server',
   })
@@ -42,6 +43,7 @@ const { argv } = yargs
   .option('allow-invalid-cert', {
     describe: 'Disable certificate checks for your local HTTPS server (ignore cert/key/ca options)',
   })
+  .boolean('allow-invalid-cert')
   .options('o', {
     alias: 'open',
     describe: 'Opens the tunnel URL in your browser',
@@ -49,10 +51,13 @@ const { argv } = yargs
   .option('print-requests', {
     describe: 'Print basic request info',
   })
-  .require('port')
-  .boolean('local-https')
-  .boolean('allow-invalid-cert')
   .boolean('print-requests')
+  .option('require-auth', {
+    default: false,
+    describe: 'Enforce the use of an API key when making queries to the proxied server.',
+  })
+  .boolean('require-auth')
+  .require('port')
   .help('help', 'Show this help and exit')
   .version(version);
 
@@ -73,16 +78,21 @@ if (typeof argv.port !== 'number') {
     local_key: argv.localKey,
     local_ca: argv.localCa,
     allow_invalid_cert: argv.allowInvalidCert,
+    requireAuth: argv.requireAuth,
   }).catch(err => {
     console.error(err.message);
     process.exit(1);
   });
 
   tunnel.on('error', err => {
-    throw err;
+    console.log(err.message);
+    process.exit(1);
   });
 
   console.log('your url is: %s', tunnel.url);
+  if (tunnel.apikey) {
+    console.log('with api_key: %s', tunnel.apikey);
+  }
 
   /**
    * `cachedUrl` is set when using a proxy server that support resource caching.
