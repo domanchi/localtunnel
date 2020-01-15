@@ -49,6 +49,15 @@ You may also specify arguments via env variables. E.x.
 PORT=3000 lt
 ```
 
+#### Authorization
+
+If your localtunnel requires authorization, you can pass an API key in with the
+use of the `API_KEY` environment variable. e.g.
+
+```
+API_KEY='random-string' lt
+```
+
 ## API
 
 The localtunnel client is also usable through an API (for test integration, automation, etc)
