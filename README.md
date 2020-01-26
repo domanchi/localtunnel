@@ -1,5 +1,8 @@
 # localtunnel
 
+| :warning: This forked attempt has been abandoned. I have decided to pursue the solution with SSH Tunnels instead. You can read more about it at my blogpost: [How to Setup Webhooks to Private Networks](https://aaronloo.com/how-to-guide/private-network-webhooks) |
+| --- |
+
 localtunnel exposes your localhost to the world for easy testing and sharing! No need to mess with DNS or deploy just to have others test out your changes.
 
 Great for working with browser testing tools like browserling or external api callback services like twilio which require a public url for callbacks.
